@@ -2,16 +2,16 @@ import time
 from datetime import datetime
 import requests
 
-has_new_products: bool = False
+has_new_products = False
 
 
 def main(name):
     global has_new_products
-    undesiredProducts: list[str] = ["6633845489733", "4553091907653", "6639586607173", "4632437981253", "4632437620805",
+    undesiredProducts = ["6633845489733", "4553091907653", "6639586607173", "4632437981253", "4632437620805",
                                     "4438226174021", "4347318534213", "6583673880645", "6583727063109", "4363187814469",
                                     "4363188338757", "4363188109381", "4363188043845", "4363188305989", "4363188437061",
                                     "4363188371525", "4634168754245"]
-    desiredProducts: list[str] = ["6708219150405", "6708218396741", "6708220264517", "6671605203013", "6708220592197"]
+    desiredProducts = ["6708219150405", "6708218396741", "6708220264517", "6671605203013", "6708220592197"]
     url = "https://hydra-ccc.shop/collections/current"
     count = 0
 
@@ -22,7 +22,7 @@ def main(name):
         time.sleep(60)
 
 
-def checkShop(url: str, desiredProducts: list[str]):
+def checkShop(url, desiredProducts):
     html_text = requests.get(url).text
 
     available_product = getProductIDs(html_text)
@@ -31,7 +31,7 @@ def checkShop(url: str, desiredProducts: list[str]):
             notify(product)
 
 
-def notify(productID: str):
+def notify(productID):
     global has_new_products
     has_new_products = True
     print("new product with the ID: ", productID)
@@ -42,7 +42,7 @@ def notify(productID: str):
     requests.post(url=webhookURL, data=message)
 
 
-def getProductIDs(source: str):
+def getProductIDs(source):
     source = source.split(
         'class="grid__item grid-product grid-product--padded medium-up--one-third grid-product__hover-details"')
     source.pop(0)
